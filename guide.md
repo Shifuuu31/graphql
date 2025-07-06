@@ -203,10 +203,79 @@ Use any of:
 
 ---
 
-Would you like me to help:
+Here’s a list of suggested information sections for your **Profile Dashboard** (based on your project spec), with details on:
 
-* Set up the base `index.html`, `app.js`, and GraphQL functions?
-* Create a simple working login + JWT fetch?
-* Help generate the SVG charts with example data?
+* ✅ What to display
+* 🟡 Whether it's **required** or **optional**
+* 🔗 Where to query it from in GraphQL
 
-Let me know where you want to start 💡
+---
+
+## 📋 Dashboard Info List
+
+| Section           | Info                       | Source Table                          | Required / Optional    |
+| ----------------- | -------------------------- | ------------------------------------- | ---------------------- |
+| **Basic Info**    | Username (login)           | `user`                                | ✅ Required             |
+|                   | User ID                    | `user`                                | ✅ Required             |
+| **XP Stats**      | Total XP earned            | `transaction`                         | ✅ Required             |
+|                   | XP per project (for graph) | `transaction` + `object`              | ✅ Required             |
+| **Grades**        | Grade for each project     | `progress` or `result`                | 🟡 Optional            |
+| **Audits**        | Number of audits done      | `transaction` or `user` (audit ratio) | 🟡 Optional            |
+| **Skills**        | List of skills with levels | `user_skills` (if exists)             | 🟡 Optional            |
+| **Projects**      | Pass / Fail per project    | `result`                              | ✅ Required (for stats) |
+| **Graph 1**       | XP over time               | `transaction`                         | ✅ Required (graph)     |
+| **Graph 2**       | Pass/Fail ratio            | `result`                              | ✅ Required (graph)     |
+| **JS/Go Piscine** | Attempts per exercise      | `progress`                            | 🟡 Optional            |
+|                   | PASS/FAIL per quest        | `result`                              | 🟡 Optional            |
+
+---
+
+## 🔧 Required GraphQL Operations (Examples)
+
+### ✅ Get current user info
+
+```graphql
+{
+  user {
+    id
+    login
+  }
+}
+```
+
+### ✅ Get XP per transaction
+
+```graphql
+{
+  transaction(where: {type: {_eq: "xp"}}) {
+    amount
+    objectId
+    createdAt
+  }
+}
+```
+
+### ✅ Get results (grades/pass/fail)
+
+```graphql
+{
+  result {
+    grade
+    object {
+      name
+      type
+    }
+  }
+}
+```
+
+---
+
+## 🛠️ Summary
+
+To pass the project:
+
+* ✅ Show login-based profile info (JWT)
+* ✅ Display at least **3 profile data sections**
+* ✅ Include **2 SVG graphs**
+* ✅ Use **normal**, **nested**, and **argument-based** GraphQL queries

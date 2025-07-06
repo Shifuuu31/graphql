@@ -1,7 +1,7 @@
 import { browse } from "../app.js";
-import { Warning } from "../tools.js";
+import { BASE_URL, Warning } from "../tools.js";
 
-const BASE_URL = 'https://learn.zone01oujda.ma'
+
 
 export const Signin = {
   render(app) {
@@ -48,54 +48,52 @@ export const Signin = {
           <a href="/forgot-password" data-link><span id="span">Forgot password?</span></a>
         </div>
         <button id="button-submit">Sign In</button>
-    </div>`; 
+    </div>`;
   },
 
   setup() {
-     const token = localStorage.getItem('token')
-        if (token) browse('/')
-            console.log("succes");
-            
+    const jwt = localStorage.getItem('jwt')
+    if (jwt) return browse('/')
 
     const togglePasswordIcon = document.getElementById('togglePassword');
     const passwordInput = document.getElementById('password');
 
     togglePasswordIcon.addEventListener('click', () => {
       const isVisible = passwordInput.type === 'text'
-      passwordInput.type =  isVisible ? 'password' : 'text';
+      
+      passwordInput.type = isVisible ? 'password' : 'text';
       togglePasswordIcon.textContent = isVisible ? 'visibility_off' : 'visibility';
     });
 
     const signInButton = document.getElementById('button-submit');
+    
+    signInButton.addEventListener('click', async () => {
 
-    signInButton.addEventListener('click', async() => {
       const identifier = document.getElementById('identifier').value;
       const password = passwordInput.value;
+
       if (identifier === '' || password === '') return Warning('Required Credentials')
-      console.log('Credentials:', { identifier, password })
 
-      //TODO get jwt
+      try {
+        const response = await fetch(`${BASE_URL}/api/auth/signin`, {
+          method: "POST",
+          headers: {
+            "Authorization": `Basic ${identifier + ":" + password}`
+          }
+        })
 
-      try{
-            const response = await fetch(`${BASE_URL}/api/auth/signin`,{
-                method: "POST",
-                headers: {
-                    "Authorization": `Basic ${identifier + ":" + password}`
-                }
-            })
-            const data = await response.json();
-            if (!response.ok){
-                throw new Error(data.error);
-            }
-            console.log(data)
-            localStorage.setItem("token", data);
-            browse("/");
-            // TODO add popup err msg
-        }catch(error){
-            // TODO add popup err msg
-            console.log(error.message)
-            Warning(error.message )
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error);
         }
+
+        localStorage.setItem("jwt", data);
+        
+        return browse("/");
+      } catch (error) {
+        return Warning(error.message)
+      }
     });
   }
 };

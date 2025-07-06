@@ -1,8 +1,24 @@
-// add one listener to multiple event types on any EventTarget [element window document htmele ...]
-EventTarget.prototype.addMultiEventListener = function (events, callback, options) {
-  events.forEach(event => this.addEventListener(event, callback, options));
-};
+export const BASE_URL = 'https://learn.zone01oujda.ma'
 
+const graphqlRequest = async (query, variables = {}) => {
+    const jwt = localStorage.getItem("jwt");
+    const res = await fetch(`${BASE_URL}/api/graphql-engine/v1/graphql`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`
+        },
+        body: JSON.stringify({ query, variables })
+    });
+
+    const json = await res.json();
+    if (json.errors) throw new Error(json.errors[0].message);
+    return json.data;
+}
+
+EventTarget.prototype.addMultiEventListener = function (events, callback, options) {
+    events.forEach(event => this.addEventListener(event, callback, options));
+};
 
 export const Warning = (message, state = 'fail', n = 10) => {
     let container = document.getElementById('popup-container');
@@ -60,9 +76,9 @@ export const Warning = (message, state = 'fail', n = 10) => {
     setTimeout(() => {
         if (card.parentNode) {
             card.classList.add('removing');
-            setTimeout(() => card.remove(), 300*n);
+            setTimeout(() => card.remove(), 300 * n);
         }
-    }, 300*n);
+    }, 300 * n);
 
     container.appendChild(card);
 };

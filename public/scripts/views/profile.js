@@ -9,9 +9,10 @@ export const Profile = {
     },
 
     setup() {
-        const token = localStorage.getItem('token')
-        if (!token) browse('/auth/signin')
+        const jwt = localStorage.getItem('jwt')
+        if (!jwt) browse('/auth/signin')
             console.log("succes");
+            
             
 
     }

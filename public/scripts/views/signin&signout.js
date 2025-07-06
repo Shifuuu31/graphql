@@ -8,7 +8,6 @@ export const Signin = {
     app.innerHTML = `
     <head>
       <link rel="stylesheet" href="/public/styles/signin.css">
-      <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     </head>
     <div id="form">
         <h1>Please Signin</h1>
@@ -60,17 +59,17 @@ export const Signin = {
 
     togglePasswordIcon.addEventListener('click', () => {
       const isVisible = passwordInput.type === 'text'
-      
+
       passwordInput.type = isVisible ? 'password' : 'text';
       togglePasswordIcon.textContent = isVisible ? 'visibility_off' : 'visibility';
     });
 
     const signInButton = document.getElementById('button-submit');
-    
+
     signInButton.addEventListener('click', async () => {
 
-      const identifier = document.getElementById('identifier').value;
-      const password = passwordInput.value;
+      const identifier = document.getElementById('identifier').value.trim();
+      const password = passwordInput.value.trim();
 
       if (identifier === '' || password === '') return Warning('Required Credentials')
 
@@ -78,7 +77,7 @@ export const Signin = {
         const response = await fetch(`${BASE_URL}/api/auth/signin`, {
           method: "POST",
           headers: {
-            "Authorization": `Basic ${identifier + ":" + password}`
+            "Authorization": `Basic ${btoa(identifier + ":" + password)}`
           }
         })
 
@@ -89,7 +88,7 @@ export const Signin = {
         }
 
         localStorage.setItem("jwt", data);
-        
+
         return browse("/");
       } catch (error) {
         return Warning(error.message)
@@ -98,7 +97,11 @@ export const Signin = {
   }
 };
 
-
-
+export const Signout = {
+  setup() {
+    localStorage.removeItem("jwt");
+    browse('/auth/signin')
+  }
+}
 
 

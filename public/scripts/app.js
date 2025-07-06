@@ -1,14 +1,17 @@
-import { Signin } from './views/signin.js'
+import { Signin, Signout } from './views/signin&signout.js'
 import { Profile } from './views/profile.js'
 import { NotFound, ForgotPassword } from './views/notfound.js'
 
 
 
 const Views = {
-  "/auth/signin": Signin,
-  "/dashboard/profile": Profile,
+  '/auth/signin': Signin,
+  '/dashboard/profile': Profile,
+  '/user/signout': Signout,
   '/forgot-password': ForgotPassword
 };
+
+
 
 const route = (path) => {
   console.log(path);
@@ -20,7 +23,7 @@ const route = (path) => {
   const app = document.getElementById("app");
   app.innerHTML = "";
   const View = Views[path] || NotFound;
-  View.render(app)
+  View.render?.(app)
   View.setup?.()
 }
 

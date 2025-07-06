@@ -1,7 +1,13 @@
-
 body {
-     overflow: hidden;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
+
 #form {
   display: flex;
   flex-direction: column;
@@ -21,7 +27,7 @@ body {
   align-self: flex-end;
 }
 
-#flex-column > label {
+#flex-column>label {
   color: var(--label-color);
   font-weight: var(--font-weight-bold);
 }
@@ -36,7 +42,7 @@ body {
   transition: 0.2s ease-in-out;
 }
 
-#identifier, 
+#identifier,
 #password {
   margin-left: var(--inner-spacing);
   border-radius: var(--input-radius);
@@ -44,7 +50,7 @@ body {
   width: 85%;
 }
 
-#identifier:focus, 
+#identifier:focus,
 #password:focus {
   outline: none;
 }
@@ -61,7 +67,7 @@ body {
   justify-content: space-between;
 }
 
-#flex-row > div > label {
+#flex-row>div>label {
   font-size: var(--font-size-s);
   color: var(--text-color);
   font-weight: var(--font-weight-normal);

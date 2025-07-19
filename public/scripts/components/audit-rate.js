@@ -1,4 +1,4 @@
-import { graphqlRequest, loadFailed, Warning } from "../tools.js"
+import { graphqlRequest, loadFailed, } from "../tools.js"
 import { AuditRatio } from "./audit-ratio.js";
 
 export const AuditRate = {
@@ -53,9 +53,8 @@ export const AuditRate = {
 
     const container = document.getElementById("audit-rate");
 
-    if (!resp || !resp.audit || !Array.isArray(resp.audit)) {
+    if (!container || !resp || !resp.audit || !Array.isArray(resp.audit)) {
       loadFailed(container, 'Audit Rate');
-
       return;
     }
 
@@ -94,10 +93,11 @@ export const AuditRate = {
 
     // Update donut chart
     updateDonutChart(totalSuccess, totalFail, total);
+    AuditRatio.setup()
   }
 };
 
-function updateDonutChart(successCount, failCount, total) {
+const updateDonutChart =(successCount, failCount, total) => {
   const circumference = 2 * Math.PI * 80; // r = 80
 
   const successPercentage = successCount / total;

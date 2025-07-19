@@ -10,7 +10,7 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 60px;
+  height: 70px;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   display: flex;
@@ -23,11 +23,13 @@
 }
 
 .topbar h1 {
-  font-size: 1.2rem;
+  font-size:2rem;
+  font-weight:900;
   margin: 0;
   color: var(--text-color);
-  font-weight: var(--font-weight-bold);
 }
+
+
 
 .topbar-meta {
   display: flex;

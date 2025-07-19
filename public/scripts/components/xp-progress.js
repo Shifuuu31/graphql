@@ -22,22 +22,17 @@ export const XpProgress = {
     }
     `;
 
-    try {
       const resp = await graphqlRequest(query);
       const container = document.getElementById("xp-progress");
 
-      if (!resp || !resp.transaction || !Array.isArray(resp.transaction) || resp.transaction.length === 0) {
+      if (!container|| !resp || !resp.transaction || !Array.isArray(resp.transaction) || resp.transaction.length === 0) {
         loadFailed(container, "XP Progress");
         return;
       }
 
       const xpProgressData = resp.transaction;
       renderChart(container, xpProgressData);
-    } catch (error) {
-      console.error("Error loading XP Progress data:", error);
-      const container = document.getElementById("xp-progress");
-      loadFailed(container, "XP Progress");
-    }
+   
   }
 };
 

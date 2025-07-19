@@ -73,7 +73,6 @@ export const Signin = {
 
       if (identifier === '' || password === '') return Warning('Required Credentials')
 
-      try {
         const response = await fetch(`${BASE_URL}/api/auth/signin`, {
           method: "POST",
           headers: {
@@ -90,9 +89,7 @@ export const Signin = {
         localStorage.setItem("jwt", data);
 
         return browse("/");
-      } catch (error) {
-        return Warning(error.message)
-      }
+      
     });
   }
 };

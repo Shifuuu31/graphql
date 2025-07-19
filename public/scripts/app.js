@@ -1,6 +1,7 @@
 import { Signin, Signout } from './views/signin&signout.js'
 import { Profile } from './views/profile.js'
 import { NotFound, ForgotPassword } from './views/notfound.js'
+import { Warning } from './tools.js';
 
 
 
@@ -20,6 +21,17 @@ const route = (path) => {
     return browse("/dashboard/profile");
   }
 
+if (path != '/auth/signin' && path != '/forgot-password') {
+    const jwt = localStorage.getItem('jwt')
+
+    if (!jwt) {
+      localStorage.clear()
+      Warning('Unauthorized. Please SignIn.', 'fail');
+      browse('/auth/signin')
+      return
+    }
+
+  }
   const app = document.getElementById("app");
   app.innerHTML = "";
   const View = Views[path] || NotFound;

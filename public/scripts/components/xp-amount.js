@@ -1,4 +1,4 @@
-import { bytesToKilobytes, graphqlRequest, loadFailed } from "../tools.js"
+import { FormatBytes, graphqlRequest, loadFailed } from "../tools.js"
 
 export const XpAmount = {
   html: `
@@ -56,9 +56,9 @@ export const XpAmount = {
     const totalAmount = resp.user[0].transactions_aggregate?.aggregate?.sum?.amount || 0
     const lastTx = resp.user[0].transactions?.[0]
 
-    const totalKb = bytesToKilobytes(totalAmount) + " kB"
+    const totalKb = FormatBytes(totalAmount, 2)
     const lastName = lastTx?.object?.name || "Unknown"
-    const lastAmountKb = bytesToKilobytes(lastTx?.amount, 1) + " kB"
+    const lastAmountKb = FormatBytes(lastTx?.amount, 2)
     const lastDate = new Date(lastTx?.createdAt || "").toLocaleDateString("en-GB", {
       day: "2-digit",
       month: "short",

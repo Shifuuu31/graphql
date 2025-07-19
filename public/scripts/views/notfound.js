@@ -1,6 +1,6 @@
 export const NotFound = {
-    render(app) { 
-        app.innerHTML =    `
+    render(app) {
+        app.innerHTML = `
     <head>
     <link rel="stylesheet" href="/public/styles/notfound.css">
     </head>
@@ -22,7 +22,7 @@ export const NotFound = {
 };
 
 export const ForgotPassword = {
-    render(app) { 
+    render(app) {
         app.innerHTML = `
     <head>
     <link rel="stylesheet" href="/public/styles/notfound.css">

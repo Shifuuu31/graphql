@@ -1,8 +1,23 @@
-export const BASE_URL = 'https://learn.zone01oujda.ma'
-export const graphqlRequest = async (query) => {
-    const jwt = localStorage.getItem("jwt");
+import { browse } from "./app.js";
 
+// Base URL for the backend API
+export const BASE_URL = 'https://learn.zone01oujda.ma'
+
+// Utility function to send a GraphQL request
+export const graphqlRequest = async (query) => {
     try {
+        // Get the JWT token from localStorage
+        const jwt = localStorage.getItem("jwt");
+        
+        // If token not found, show warning and redirect to sign-in
+        if (!jwt) {
+            Warning('Unauthorized. Please SignIn.', 'fail');
+            localStorage.clear()
+            browse('/auth/signin')
+            return null
+        }
+
+        // Send GraphQL request with JWT in Authorization header
         const res = await fetch(`${BASE_URL}/api/graphql-engine/v1/graphql`, {
             method: "POST",
             headers: {
@@ -12,44 +27,55 @@ export const graphqlRequest = async (query) => {
             body: JSON.stringify({ query })
         });
 
+        // Parse JSON response
         const json = await res.json();
 
+        // If GraphQL returns errors, show warning and redirect to sign-in
         if (json.errors) {
             console.warn("GraphQL Errors:", json.errors);
-            console.error("Full error details:", JSON.stringify(json.errors, null, 2));
-            
-            return null;
+            Warning('Unauthorized. Please SignIn.', 'fail');
+            localStorage.clear()
+            browse('/auth/signin')
+            return null
         }
-        
-        
+
+        // Return the actual data
         return json.data;
-        
+
     } catch (error) {
+        // Catch network or other errors
         console.warn("GraphQL Error:", error);
         return null
     };
 }
 
+// Adds multiple event listeners to a DOM element
 EventTarget.prototype.addMultiEventListener = function (events, callback, options) {
     events.forEach(event => this.addEventListener(event, callback, options));
 };
 
-export const Warning = (message, state = 'fail', t = 10, n = 3) => {
+let popupIndex = 0
+
+// Displays a warning or message popup with different states (success, info, error)
+export const Warning = (message, state = 'fail', t = 10, n = 1) => {
     let container = document.getElementById('popup-container');
 
-    // Create container if it doesn't exist
+    // Create popup container if it doesn't exist
     if (!container) {
         container = document.createElement('div');
         container.id = 'popup-container';
         document.body.appendChild(container);
     }
 
+    // Limit to 5 error cards
     const errcards = container.querySelectorAll('.errcard')
     if (errcards.length >= 5) return
 
+    // Create error/success/info card
     const errcard = document.createElement('div');
-    errcard.className = 'errcard ' + (state === 'success' ? ' success' : ' pperror');
+    errcard.className = 'errcard ' + (state === 'success' ? ' success' : ' fail');
 
+    
     let iconPath = '';
     let titleText = '';
 
@@ -81,12 +107,15 @@ export const Warning = (message, state = 'fail', t = 10, n = 3) => {
         </svg>
     `;
 
+
+    // Close button handler
     const closeBtn = errcard.querySelector('.cross-icon');
     closeBtn.addEventListener('click', () => {
         errcard.classList.add('removing');
         setTimeout(() => errcard.remove(), 300);
     });
 
+    // Auto-remove after timeout
     setTimeout(() => {
         if (errcard.parentNode) {
             errcard.classList.add('removing');
@@ -96,23 +125,28 @@ export const Warning = (message, state = 'fail', t = 10, n = 3) => {
 
     const children = container.children;
 
+    // Show new popup or replace old one based on limit
     if (children.length < n) {
         container.appendChild(errcard);
     } else {
-        // Replace the popup at popupIndex
         container.replaceChild(errcard, children[popupIndex]);
         popupIndex = (popupIndex + 1) % n;
     }
-
-    
 };
 
-
+// Renders an error message into a container when loading fails
 export const loadFailed = (container, dataType) => {
     if (container) {
         container.innerHTML = `<div class="error">Failed to load ${dataType}. Please try again later.</div>`
     }
 }
-export const bytesToKilobytes = (bytes, n = 0) => {
-    return +(bytes / 1000).toFixed(n);
+
+// Converts bytes to a human-readable string with proper units
+export const FormatBytes = (bytes, n = 2) => {
+    if (bytes === 0) return '0 B';
+
+    if (bytes < 1000) return `${bytes} B`;
+    if (bytes >= 1000 && bytes < 1000000) return `${+(bytes / 1000).toFixed(n)} KB`;
+    if (bytes >= 1000000 && bytes < 1000000000) return `${+(bytes / 1000000).toFixed(n)} MB`;
+    if (bytes >= 1000000000) return `${+(bytes / 1000000000).toFixed(n)} GB`;
 }

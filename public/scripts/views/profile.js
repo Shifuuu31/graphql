@@ -7,8 +7,8 @@ import { AuditRate } from "../components/audit-rate.js";
 import { XpProgress } from "../components/xp-progress.js";
 
 export const Profile = {
-    render(app) {
-        app.innerHTML = `
+  render(app) {
+    app.innerHTML = `
     <head>
       <link rel="stylesheet" href="/public/styles/profile.css">
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=chip_extraction" />
@@ -41,22 +41,16 @@ chip_extraction
               </section>
     </div>
         `
-    },
+  },
 
-    setup:  ()=> {
+  setup: () => {
 
 
-        const jwt = localStorage.getItem('jwt')
-        if (!jwt) browse('/auth/signin')
-          UserInfo.setup()
-        Level.setup()
-          XpAmount.setup()
-          XpProgress.setup()
-          AuditRatio.setup()
-          AuditRate.setup()
-
-            
-    
-
-    }
+    UserInfo.setup()
+    Level.setup()
+    XpAmount.setup()
+    XpProgress.setup()
+    AuditRate.setup()
+    AuditRatio.setup()
+  }
 };

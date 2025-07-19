@@ -22,7 +22,7 @@ export const Signin = {
               </path>
             </g>
           </svg>
-          <input type="text" id="identifier" placeholder="Enter your Email Or Username">
+          <input type="text" id="identifier" placeholder="Email Or Username">
         </div>
 
         <div id="flex-column">
@@ -37,7 +37,7 @@ export const Signin = {
               d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0">
             </path>
           </svg>
-          <input type="password" id="password" placeholder="Enter your Password">
+          <input type="password" id="password" placeholder="Password">
           <span id="togglePassword" class="material-symbols-outlined" style="cursor: pointer; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
             visibility_off
           </span>
@@ -99,8 +99,10 @@ export const Signin = {
 
 export const Signout = {
   setup() {
-    localStorage.removeItem("jwt");
+    localStorage.clear()
     browse('/auth/signin')
+
+
   }
 }
 

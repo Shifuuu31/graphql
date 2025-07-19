@@ -14,7 +14,7 @@
     border-radius: 12px;
     box-sizing: border-box;
     padding: 16px 20px;
-    background-color: var(--errcard-bg);
+    background-color: #fff;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
     position: relative;
     overflow: hidden;
@@ -28,40 +28,31 @@
 
 }
 
-/* Success State */
-.errcard.success {
-    border-left-color: var(--primary);
-    background: linear-gradient(135deg, var(--errcard-bg), var(--background));
-}
+
 
 .errcard.success .icon-container {
     background: linear-gradient(135deg, #22c55e, #16a34a);
 }
 
 .errcard.success .icon {
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 .errcard.success .message-text {
     color: var(--primary);
 }
 
-/* pperror State */
-.errcard.pperror {
-    border-left-color: var(--primary);
-    background: linear-gradient(135deg, var(--errcard-bg), var(--background));
-}
 
 
-.errcard.pperror .icon-container {
+.errcard.fail .icon-container {
     background: linear-gradient(135deg, #ef4444, #dc2626);
 }
 
-.errcard.pperror .icon {
-    color: white;
+.errcard.fail .icon {
+    color: #000;
 }
 
-.errcard.pperror .message-text {
+.errcard.fail .message-text {
     color: var(--primary);
 }
 
@@ -71,6 +62,7 @@
         opacity: 0;
         transform: translateX(100%) scale(0.9);
     }
+
     100% {
         opacity: 1;
         transform: translateX(0) scale(1);
@@ -82,6 +74,7 @@
         opacity: 1;
         transform: translateX(0) scale(1);
     }
+
     100% {
         opacity: 0;
         transform: translateX(100%) scale(0.9);
@@ -101,6 +94,7 @@
     align-items: center;
     border-radius: 50%;
     flex-shrink: 0;
+    color: #000;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -143,7 +137,7 @@
 .cross-icon {
     width: 20px;
     height: 20px;
-    color: var(--text-secondary);
+    color: var( --text-color);
     cursor: pointer;
     flex-shrink: 0;
     transition: color 0.2s ease;

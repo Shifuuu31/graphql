@@ -10,7 +10,7 @@ export const XpProgress = {
 
   setup: async () => {
     const query = `
-    {
+    { 
       transaction(
           where: {type: {_eq: "xp"}, event: {object: {name: {_eq: "Module"}}}}
           order_by: {createdAt: asc}
@@ -25,7 +25,7 @@ export const XpProgress = {
     try {
       const resp = await graphqlRequest(query);
       const container = document.getElementById("xp-progress");
-      
+
       if (!resp || !resp.transaction || !Array.isArray(resp.transaction) || resp.transaction.length === 0) {
         loadFailed(container, "XP Progress");
         return;
@@ -120,8 +120,8 @@ const drawBar = (container, tx, index, containerHeight, margin, barWidth, barSpa
   const { amount, createdAt, cumulative } = tx;
   const date = new Date(createdAt);
   const labelDate = date.toLocaleDateString('en-GB', {
-    day: 'numeric', 
-    month: 'short', 
+    day: 'numeric',
+    month: 'short',
     year: '2-digit'
   });
 
@@ -145,9 +145,9 @@ const drawBar = (container, tx, index, containerHeight, margin, barWidth, barSpa
   // Add hover effects
   bar.addEventListener("mouseenter", () => {
     bar.setAttribute("fill", "var(--text-muted)");
-    showTooltip(container, x + barWidth/2, y, `+${formatXP(amount)} XP\nTotal: ${formatXP(cumulative)}\n${labelDate}`);
+    showTooltip(container, x + barWidth / 2, y, `+${formatXP(amount)} XP\nTotal: ${formatXP(cumulative)}\n${labelDate}`);
   });
-  
+
   bar.addEventListener("mouseleave", () => {
     bar.setAttribute("fill", "var(--text-secondary)");
     hideTooltip(container);
@@ -233,7 +233,7 @@ const showTooltip = (container, x, y, text) => {
   // Position tooltip to avoid edges
   let tooltipX = x - tooltipWidth / 2;
   let tooltipY = y - tooltipHeight - 10;
-  
+
   if (tooltipX < 10) tooltipX = 10;
   if (tooltipX + tooltipWidth > container.getAttribute("width") - 10) {
     tooltipX = container.getAttribute("width") - tooltipWidth - 10;
@@ -273,7 +273,7 @@ const showTooltip = (container, x, y, text) => {
 const hideTooltip = (container) => {
   const tooltip = container.querySelector("#tooltip-bg");
   if (tooltip) tooltip.remove();
-  
+
   // Remove all tooltip text elements
   for (let i = 0; i < 5; i++) {
     const text = container.querySelector(`#tooltip-text-${i}`);

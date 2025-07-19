@@ -1,5 +1,5 @@
 
-import { graphqlRequest, loadFailed} from "../tools.js"
+import { graphqlRequest, loadFailed } from "../tools.js"
 
 export const UserInfo = {
     html:
@@ -29,16 +29,17 @@ export const UserInfo = {
         // console.log(resp);
 
         const container = document.getElementById("user-info")
-        if (!resp ) {
+        if (!resp) {
             loadFailed(container, 'User Informations')
             return
-        }
-        
 
-        container.children[0].children[0].textContent= `${resp?.user[0]?.firstName} ${resp?.user[0]?.lastName}`
-        container.children[1].children[0].textContent= resp?.user[0]?.login
-        container.children[2].children[0].textContent= resp?.user[0]?.email
-        container.children[3].children[0].textContent= resp?.user[0]?.tel
+        }
+
+
+        container.children[0].children[0].textContent = `${resp?.user[0]?.firstName} ${resp?.user[0]?.lastName}`
+        container.children[1].children[0].textContent = resp?.user[0]?.login
+        container.children[2].children[0].textContent = resp?.user[0]?.email
+        container.children[3].children[0].textContent = resp?.user[0]?.tel
 
 
     }

@@ -1,4 +1,4 @@
-import { bytesToKilobytes, graphqlRequest, loadFailed, Warning } from "../tools.js"
+import { FormatBytes, graphqlRequest, loadFailed, Warning } from "../tools.js"
 
 export const AuditRatio = {
   html: `
@@ -19,6 +19,7 @@ export const AuditRatio = {
   setup: async () => {
     const query = `query {
       user {
+        auditRatio
         totalUp
         totalDown
       }
@@ -31,22 +32,33 @@ export const AuditRatio = {
 
     if (!resp || !resp.user || !Array.isArray(resp.user)) {
       loadFailed(container, 'Audit Ratio');
-      Warning('Could not load Audit Ratio. Please re-login.', 'fail');
       return;
     }
 
     const user = resp.user[0];
+    const auditRatio = user?.auditRatio || 0;
     const up = user?.totalUp || 0;
-    const down = user?.totalDown || 0;
+    const down = user?.totalDown || 0
+
+    console.log(up, down);
+    ;
 
     // Display ratio
-    container.children[0].textContent = down ? (up / down).toFixed(1) : "0.0";
+    container.children[0].textContent = auditRatio ? auditRatio.toFixed(1) : "0.0";
 
-    const upArrowSvg = `...`;   // (same as before)
-    const downArrowSvg = `...`; // (same as before)
+    const upArrowSvg = `
+<svg width="24" height="24" viewBox="0 0 24 24" fill="green" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;">
+  <path d="M7 14l5-5 5 5H7z"/>
+</svg>`;
 
-    container.children[1].innerHTML = `Done: ${bytesToKilobytes(up)} kB${upArrowSvg}`;
-    container.children[2].innerHTML = `Received: ${bytesToKilobytes(down)} kB${downArrowSvg}`;
+    const downArrowSvg = `
+<svg width="24" height="24" viewBox="0 0 24 24" fill="red" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;">
+  <path d="M7 10l5 5 5-5H7z"/>
+</svg>`;
+
+
+    container.children[1].innerHTML = `Done: ${FormatBytes(up, 2)}${upArrowSvg}`;
+    container.children[2].innerHTML = `Received: ${FormatBytes(down, 2)}${downArrowSvg}`;
 
     // Adjust chart bars
     const total = up + down || 1; // avoid divide-by-zero

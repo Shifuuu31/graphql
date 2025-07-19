@@ -1,0 +1,42 @@
+[
+    {
+        "login": "asaadane",
+        "email": "ayman.saadane@gmail.com",
+        "attrs": {
+            "cin": "T317651",
+            "tel": "+212659571947",
+            "city": "Mohammedia",
+            "email": "ayman.saadane@gmail.com",
+            "gender": "Male",
+            "country": "Morocco",
+            "lastName": "Saadane",
+            "birthCity": "Mohammedia",
+            "firstName": "Aymane",
+            "addressCity": "Mohammedia",
+            "dateOfBirth": "2003-09-16T00:00:00.000Z",
+            "hearAboutUs": "socialCircle",
+            "medicalCase": "no",
+            "medicalInfo": "",
+            "birthCountry": "Morocco",
+            "emergencyTel": "+212649941312",
+            "placeOfBirth": "Mohammedia",
+            "addressRegion": " Casablanca-Settat",
+            "addressStreet": "Hasania 2, Bloc C, nr 134",
+            "addressCountry": "Morocco",
+            "arabicLastName": "سعدان",
+            "countryOfBirth": "Morocco",
+            "Mohamed1stCheck": "NO",
+            "arabicFirstName": "أيمن",
+            "peerToPeerBefore": "yes",
+            "addressPostalCode": "28830",
+            "emergencyLastName": "Saadane",
+            "hearAboutUsOthers": "",
+            "arabicPlaceOfBirth": "المحمدية",
+            "emergencyFirstName": "Houcine",
+            "arabicAddressStreet": "-",
+            "emergencyAffiliation": "Parent",
+            "addressComplementStreet": "",
+            "using-our-servicesAccepted": true
+        }
+    }
+]

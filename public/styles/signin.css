@@ -56,7 +56,7 @@ body {
 }
 
 #inputForm:focus-within {
-  border: 1.5px solid var(--focus-border-color);
+  border: 1.5px solid var(--label-color);
 }
 
 #flex-row {

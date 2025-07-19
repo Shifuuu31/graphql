@@ -1,26 +1,40 @@
 export const BASE_URL = 'https://learn.zone01oujda.ma'
-
-const graphqlRequest = async (query, variables = {}) => {
+export const graphqlRequest = async (query) => {
     const jwt = localStorage.getItem("jwt");
-    const res = await fetch(`${BASE_URL}/api/graphql-engine/v1/graphql`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${jwt}`
-        },
-        body: JSON.stringify({ query, variables })
-    });
 
-    const json = await res.json();
-    if (json.errors) throw new Error(json.errors[0].message);
-    return json.data;
+    try {
+        const res = await fetch(`${BASE_URL}/api/graphql-engine/v1/graphql`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${jwt}`
+            },
+            body: JSON.stringify({ query })
+        });
+
+        const json = await res.json();
+
+        if (json.errors) {
+            console.warn("GraphQL Errors:", json.errors);
+            console.error("Full error details:", JSON.stringify(json.errors, null, 2));
+            
+            return null;
+        }
+        
+        
+        return json.data;
+        
+    } catch (error) {
+        console.warn("GraphQL Error:", error);
+        return null
+    };
 }
 
 EventTarget.prototype.addMultiEventListener = function (events, callback, options) {
     events.forEach(event => this.addEventListener(event, callback, options));
 };
 
-export const Warning = (message, state = 'fail', n = 10) => {
+export const Warning = (message, state = 'fail', t = 10, n = 3) => {
     let container = document.getElementById('popup-container');
 
     // Create container if it doesn't exist
@@ -30,11 +44,11 @@ export const Warning = (message, state = 'fail', n = 10) => {
         document.body.appendChild(container);
     }
 
-    const cards = container.querySelectorAll('.card')
-    if (cards.length >= 5) return
+    const errcards = container.querySelectorAll('.errcard')
+    if (errcards.length >= 5) return
 
-    const card = document.createElement('div');
-    card.className = 'card ' + (state === 'success' ? ' success' : ' pperror');
+    const errcard = document.createElement('div');
+    errcard.className = 'errcard ' + (state === 'success' ? ' success' : ' pperror');
 
     let iconPath = '';
     let titleText = '';
@@ -50,7 +64,7 @@ export const Warning = (message, state = 'fail', n = 10) => {
         titleText = 'Error';
     }
 
-    card.innerHTML = `
+    errcard.innerHTML = `
         <div class="icon-container">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" class="icon">
                 <path d="${iconPath}"/>
@@ -67,18 +81,38 @@ export const Warning = (message, state = 'fail', n = 10) => {
         </svg>
     `;
 
-    const closeBtn = card.querySelector('.cross-icon');
+    const closeBtn = errcard.querySelector('.cross-icon');
     closeBtn.addEventListener('click', () => {
-        card.classList.add('removing');
-        setTimeout(() => card.remove(), 300);
+        errcard.classList.add('removing');
+        setTimeout(() => errcard.remove(), 300);
     });
 
     setTimeout(() => {
-        if (card.parentNode) {
-            card.classList.add('removing');
-            setTimeout(() => card.remove(), 300 * n);
+        if (errcard.parentNode) {
+            errcard.classList.add('removing');
+            setTimeout(() => errcard.remove(), 300 * t);
         }
-    }, 300 * n);
+    }, 300 * t);
 
-    container.appendChild(card);
+    const children = container.children;
+
+    if (children.length < n) {
+        container.appendChild(errcard);
+    } else {
+        // Replace the popup at popupIndex
+        container.replaceChild(errcard, children[popupIndex]);
+        popupIndex = (popupIndex + 1) % n;
+    }
+
+    
 };
+
+
+export const loadFailed = (container, dataType) => {
+    if (container) {
+        container.innerHTML = `<div class="error">Failed to load ${dataType}. Please try again later.</div>`
+    }
+}
+export const bytesToKilobytes = (bytes, n = 0) => {
+    return +(bytes / 1000).toFixed(n);
+}
